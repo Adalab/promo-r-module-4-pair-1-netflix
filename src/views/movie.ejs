@@ -9,7 +9,15 @@
 </head>
 
 <body>
-    <p>Hola, mundo</p>
+    <li key={movie.id} className="card">
+        <img className="card__img" src="<%= image %>" />
+        <h3 className="card__title">
+            <!-- alt={`Carátula de <%=title %>`} -->
+            <%= title %>
+        </h3>
+        <p className="card__description">Género: <%= gender %>
+        </p>
+    </li>
 </body>
 
 </html>
