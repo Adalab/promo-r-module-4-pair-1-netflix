@@ -8,8 +8,11 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
+server.set('view engine', 'ejs');
+
 //END POINTS
 //For us: end points are dynamic routes where we specify the access point when someone asks for something. "Come here and do whatever is defined  into the callback function"
+
 server.get('/movies', (req, res) => {
   res.json(movies); // ti seems that we don't need to return a data structure with success true, as it is already defined in movies.json
 });
@@ -23,7 +26,7 @@ server.post('/login', (req, res) => {
   if (userFound !== undefined) {
     res.json({
       success: true,
-      userId: 'id_de_la_usuaria_encontrada',
+      userId: userFound.id,
     });
   } else {
     res.json({
@@ -31,6 +34,15 @@ server.post('/login', (req, res) => {
       errorMessage: 'Usuaria/o no encontrada/o',
     });
   }
+});
+
+server.get('/movie/:movieId', (req, res) => {
+  console.log(req.params); //URL params
+  const foundMovie = movies.movies.find((movie) => 
+    movie.id === req.params.movieId
+  );
+  res.render('movie')
+  // res.json(foundMovie)
 });
 
 //servidor estaticos
