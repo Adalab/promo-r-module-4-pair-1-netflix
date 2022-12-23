@@ -2,16 +2,28 @@ const express = require('express');
 const cors = require('cors');
 const movies = require('../web/src/data/movies.json');
 const users = require('../web/src/data/users.json');
+const Database = require('better-sqlite3');
+
+const db = new Database('./src/db/database.db', {
+  verbose: console.log,
+});
 
 // create and config server
 const server = express();
 server.use(cors());
 server.use(express.json());
 
+server.set('view engine', 'ejs');
+
 //END POINTS
 //For us: end points are dynamic routes where we specify the access point when someone asks for something. "Come here and do whatever is defined  into the callback function"
+
 server.get('/movies', (req, res) => {
-  res.json(movies); // ti seems that we don't need to return a data structure with success true, as it is already defined in movies.json
+  // ti seems that we don't need to return a data structure with success true, as it is already defined in movies.json
+  const query = db.prepare('SELECT * FROM movies');
+  const movies = query.all();
+  console.log(movies);
+  res.json(movies);
 });
 
 server.post('/login', (req, res) => {
@@ -23,7 +35,7 @@ server.post('/login', (req, res) => {
   if (userFound !== undefined) {
     res.json({
       success: true,
-      userId: 'id_de_la_usuaria_encontrada',
+      userId: userFound.id,
     });
   } else {
     res.json({
@@ -31,6 +43,15 @@ server.post('/login', (req, res) => {
       errorMessage: 'Usuaria/o no encontrada/o',
     });
   }
+});
+
+server.get('/movie/:movieId', (req, res) => {
+  console.log(req.params); //URL params
+  const foundMovie = movies.movies.find(
+    (movie) => movie.id === req.params.movieId
+  );
+  res.render('movie', foundMovie);
+  // res.json(foundMovie)
 });
 
 //servidor estaticos
