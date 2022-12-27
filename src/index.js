@@ -23,7 +23,12 @@ server.get('/movies', (req, res) => {
   const query = db.prepare('SELECT * FROM movies');
   const movies = query.all();
   console.log(movies);
-  res.json(movies);
+  res.json( //reconstruímos el objeto de tal modo que devuelva algo similar a lo que devolvía con json a pincho
+    {
+      success: true,
+      movies: movies
+    });
+  
 });
 
 server.post('/login', (req, res) => {
@@ -52,6 +57,21 @@ server.get('/movie/:movieId', (req, res) => {
   );
   res.render('movie', foundMovie);
   // res.json(foundMovie)
+});
+
+server.post('/signup', (req, res) => {
+  // console.log(req);
+  console.log(req.body);
+  console.log(req.body.email);
+  console.log(req.body.password);
+  const email = req.body.email;
+  const password = req.body.password;
+  const query = db.prepare('INSERT INTO users (email,password) VALUES (?,?)'); //dos datos variables
+  const result = query.run(email,password);
+  res.json({
+    success: true,
+    result: result,
+  });
 });
 
 //servidor estaticos
