@@ -60,7 +60,7 @@ Por favor marca a continuación los ejericios que hayais terminado:
 - [ ] 5. SELECT para el motor de plantillas
 - [ ] 6. Crear la tabla de usuarias
 
-  4.6 Bases de datos I:
+  4.6 Bases de datos II:
 
 - [x] 1. Registro de nuevas usuarias en el front
 - [x] 2. Registro de nuevas usuarias en el back
@@ -70,7 +70,7 @@ Por favor marca a continuación los ejericios que hayais terminado:
 - [ ] 6. Recupera los datos del perfil de la usuaria desde el front
 - [ ] 7. Recupera los datos del perfil de la usuaria desde el back
 
-  4.7 Bases de datos I:
+  4.7 Bases de datos III:
 
 - [x] 1. Pensar qué relación es
 - [x] 2. Crear una relación N a N

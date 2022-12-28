@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const movies = require('../web/src/data/movies.json');
-const users = require('../web/src/data/users.json');
+// import before data base was used
+// const movies = require('../web/src/data/movies.json');
+// const users = require('../web/src/data/users.json');
 const Database = require('better-sqlite3');
 
 const db = new Database('./src/db/database.db', {
@@ -19,13 +20,11 @@ server.set('view engine', 'ejs');
 //For us: end points are dynamic routes where we specify the access point when someone asks for something. "Come here and do whatever is defined  into the callback function"
 
 server.get('/movies', (req, res) => {
-  // ti seems that we don't need to return a data structure with success true, as it is already defined in movies.json
+  // it seems that we don't need to return a data structure with success true, as it is already defined in movies.json
   const query = db.prepare('SELECT * FROM movies');
   const movies = query.all();
-  console.log(movies);
   res.json(
-    //reconstruímos el objeto de tal modo que devuelva algo similar a lo que devolvía con json a pincho
-    {
+    { //returns an object as it was before the db
       success: true,
       movies: movies,
     }
@@ -33,7 +32,6 @@ server.get('/movies', (req, res) => {
 });
 
 server.post('/login', (req, res) => {
-  // console.log(req);
   const userFound = users.find(
     (user) =>
       user.email === req.body.email && user.password === req.body.password
@@ -51,8 +49,7 @@ server.post('/login', (req, res) => {
   }
 });
 
-server.get('/movie/:movieId', (req, res) => {
-  console.log(req.params); //URL params
+server.get('/movie/:movieId', (req, res) => {//URL params
   const foundMovie = movies.movies.find(
     (movie) => movie.id === req.params.movieId
   );
@@ -61,10 +58,6 @@ server.get('/movie/:movieId', (req, res) => {
 });
 
 server.post('/signup', (req, res) => {
-  // console.log(req);
-  // console.log(req.body);
-  // console.log(req.body.email);
-  // console.log(req.body.password);
   const email = req.body.email;
   const password = req.body.password;
   const query = db.prepare('INSERT INTO users (email,password) VALUES (?,?)'); //dos datos variables
@@ -76,8 +69,6 @@ server.post('/signup', (req, res) => {
 });
 
 server.get('/user/movies', (req, res) => {
-  console.log('USER ID');
-  console.log(req.header('userId'));
   res.json({
     success: true,
     movies: [],

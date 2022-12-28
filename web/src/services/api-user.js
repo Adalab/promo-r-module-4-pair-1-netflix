@@ -3,10 +3,10 @@
 const sendLoginToApi = (data) => {
   console.log('Se están enviando datos al login:', data);
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
-  const bodyParams = data; // data guarda los datos de la usuaria: email y contraseña
+  const bodyParams = data;
   return fetch('http://localhost:4000/login', {
     method: 'POST',
-    body: JSON.stringify(bodyParams),
+    body: JSON.stringify(bodyParams), //object: mail + passwords
     headers: { 'Content-Type': 'application/json' },
   })
     .then((response) => response.json())
@@ -63,7 +63,7 @@ const getProfileFromApi = (userId) => {
 
 // user movies
 
-const getUserMoviesFromApi = (userId) => {
+const getUserMoviesFromApi = (userId) => { //sends user id for header params
   console.log(
     'Se están pidiendo datos de las películas de la usuaria:',
     userId
